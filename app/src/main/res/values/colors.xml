@@ -9,6 +9,11 @@
     <color name="number_card_background_color">#EAEAEA</color>
     <color name="darker_gray">#888888</color>
     <color name="lighter_gray">#f8f8f8</color>
+    <color name="colorPrimary">#1E8449</color> <!-- Dark Green -->
+    <color name="colorPrimaryDark">#145A32</color> <!-- Darker Green -->
+    <color name="colorAccent">#C0392B</color> <!-- Red -->
+    <color name="colorBackground">#00BCD4</color> <!-- Light Grayish Blue -->
+
 
 
 </resources>

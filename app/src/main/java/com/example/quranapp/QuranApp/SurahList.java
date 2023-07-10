@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
@@ -30,6 +31,16 @@ public class SurahList extends Activity {
 
         linearLayoutSurahs = findViewById(R.id.linearLayoutSurahs);
         searchView = findViewById(R.id.searchView);
+
+        // Set up the back button click listener
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
         // Create an instance of the database helper
         dbHelper = new DatabaseHelper(this);

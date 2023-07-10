@@ -50,6 +50,16 @@ public class SurahRead extends Activity {
         scrollView = findViewById(R.id.scrollView);
         screenHeight = getResources().getDisplayMetrics().heightPixels;
 
+        // Set up the back button click listener
+        ImageButton backButton = findViewById(R.id.btnBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

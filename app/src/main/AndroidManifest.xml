@@ -51,7 +51,20 @@
             android:label="Islamic Quiz Game"
             tools:ignore="Instantiatable">
         </activity>
+        <activity
+            android:name="com.example.quranapp.QuizGame.QuizGame"
+            android:label="Islamic Quiz Game, Game Activity"
+            tools:ignore="Instantiatable">
+        </activity>
+        <activity
+            android:name="com.example.quranapp.QuizGame.QuizGameOver"
+            android:label="Islamic Quiz Game, Game Over"
+            tools:ignore="Instantiatable">
+        </activity>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

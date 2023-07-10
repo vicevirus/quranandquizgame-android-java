@@ -9,6 +9,14 @@
         android:orientation="horizontal"
         android:padding="1dp">
 
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:background="@color/number_card_background_color"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back" />
+
         <EditText
             android:id="@+id/editTextAyahNumber"
             android:layout_width="0dp"
@@ -22,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 
