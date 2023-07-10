@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="custom_button_pressed_color">#FF4081</color>
+    <color name="custom_button_default_color">#2196F3</color>
+    <color name="custom_button_text_color">#FFFFFF</color>
+    <color name="card_background_color">#FFFFFF</color>
+    <color name="card_stroke_color">#CCCCCC</color>
+    <color name="ayah_text_color">#333333</color>
+    <color name="number_card_background_color">#EAEAEA</color>
+    <color name="darker_gray">#888888</color>
+    <color name="lighter_gray">#f8f8f8</color>
+
+
+</resources>

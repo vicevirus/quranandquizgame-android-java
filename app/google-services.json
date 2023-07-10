@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "436904693489",
+    "project_id": "quranandquizapp",
+    "storage_bucket": "quranandquizapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436904693489:android:25aff96222bfca0ad1a350",
+        "android_client_info": {
+          "package_name": "com.example.quranapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436904693489-63i291thgo5lrrbjlsh0f6uu6m2kjmul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdkNXJYGz7zxSLs01uBRfCZm4Kot0ex58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436904693489-63i291thgo5lrrbjlsh0f6uu6m2kjmul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

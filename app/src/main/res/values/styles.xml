@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <!-- Customize your button style attributes here -->
+        <item name="android:textColor">@color/custom_button_text_color</item>
+        <item name="android:background">@drawable/custom_button_background</item>
+        <!-- Add any other custom attributes as needed -->
+    </style>
+</resources>
