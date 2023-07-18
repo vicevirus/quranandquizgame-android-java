@@ -14,6 +14,14 @@
     <color name="colorAccent">#C0392B</color> <!-- Red -->
     <color name="colorBackground">#00BCD4</color> <!-- Light Grayish Blue -->
 
+    <color name="background_color">#F5F5F5</color>
+    <color name="primary_text_color">#212121</color>
+    <color name="button_background_color">#FF4081</color>
+    <color name="primary_color">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+
+
+
 
 
 </resources>

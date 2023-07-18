@@ -1,20 +1,26 @@
 package com.example.quranapp.QuranApp;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.quranapp.DatabaseHelper;
 import com.example.quranapp.R;
@@ -23,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +50,10 @@ public class SurahBookmarks extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private SharedPreferences sharedPreferences;
     private String userId;
-
+    private boolean bookmarksLoaded = false;
+    private TextView backButton;
+    private boolean firebaseBookmarksLoaded = false;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,18 @@ public class SurahBookmarks extends AppCompatActivity {
         listView = findViewById(R.id.listBookmarks);
         clearButton = findViewById(R.id.clearButton);
         syncButton = findViewById(R.id.syncButton);
+        backButton = findViewById(R.id.backButton);
+
+
+        // Back button
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Send back button to QuranAppActivity
+                Intent intent = new Intent(SurahBookmarks.this, QuranAppActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Create an instance of the database helper
         dbHelper = new DatabaseHelper(this);
@@ -65,10 +88,34 @@ public class SurahBookmarks extends AppCompatActivity {
         // Initialize SharedPreferences for offline storage
         sharedPreferences = getSharedPreferences("Bookmarks", MODE_PRIVATE);
 
-        // Initialize the adapter with an empty list
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
-
         // Set the adapter to the ListView
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>()) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.bookmark_item, parent, false);
+                }
+
+                TextView bookmarkTextView = convertView.findViewById(R.id.bookmarkTextView);
+                CardView bookmarkCardView = convertView.findViewById(R.id.bookmarkCardView);
+
+                String bookmarkedItem = getItem(position);
+                if (bookmarkedItem != null) {
+                    bookmarkTextView.setText(bookmarkedItem);
+                }
+
+                // Set a click listener for the card
+                bookmarkCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openSurahReadActivity(bookmarkedItem);
+                    }
+                });
+
+                return convertView;
+            }
+        };
+
         listView.setAdapter(adapter);
 
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +138,19 @@ public class SurahBookmarks extends AppCompatActivity {
             userId = currentUser.getUid();
         }
 
+        // Initialize the progress dialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading bookmarks...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         // Retrieve and combine bookmarks from SharedPreferences and Firestore
-        retrieveBookmarks();
+        List<String> bookmarkedItems = retrieveBookmarks();
+        if (bookmarkedItems.isEmpty()) {
+            Toast.makeText(this, "No bookmarks available", Toast.LENGTH_SHORT).show();
+        }
+
+        bookmarksLoaded = true;
 
         // Set item click listener for the ListView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,7 +168,7 @@ public class SurahBookmarks extends AppCompatActivity {
         String[] parts = bookmarkedItem.split(", ");
         if (parts.length == 2) {
             String surahName = parts[0].replace("Surah ", "");
-            String ayahNumberString = parts[1].replace("Ayah ", "");
+            String ayahNumberString = parts[1].replace("Verse Number ", "");
             int ayahNumber = Integer.parseInt(ayahNumberString);
 
             // Open SurahRead activity and pass the surah index and ayah number
@@ -120,7 +178,6 @@ public class SurahBookmarks extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 
     private int getSurahIndex(String surahName) {
         // Open the existing database
@@ -141,7 +198,6 @@ public class SurahBookmarks extends AppCompatActivity {
         return surahIndex;
     }
 
-
     private List<String> retrieveBookmarks() {
         Set<String> bookmarkedItems = new HashSet<>();
 
@@ -153,7 +209,7 @@ public class SurahBookmarks extends AppCompatActivity {
             int ayahNumber = (int) entry.getValue();
 
             String surahName = getSurahName(surahIndex);
-            String bookmarkedItem = "Surah " + surahName + ", Ayah " + ayahNumber;
+            String bookmarkedItem = "Surah " + surahName + ", Verse Number " + ayahNumber;
             bookmarkedItems.add(bookmarkedItem);
         }
 
@@ -167,7 +223,7 @@ public class SurahBookmarks extends AppCompatActivity {
                             int ayahNumber = document.getLong("ayahNumber").intValue();
 
                             String surahName = getSurahName(surahIndex);
-                            String bookmarkedItem = "Surah " + surahName + ", Ayah " + ayahNumber;
+                            String bookmarkedItem = "Surah " + surahName + ", Verse Number " + ayahNumber;
                             bookmarkedItems.add(bookmarkedItem);
                         }
 
@@ -175,21 +231,26 @@ public class SurahBookmarks extends AppCompatActivity {
                         adapter.clear();
                         adapter.addAll(bookmarkedItems);
                         adapter.notifyDataSetChanged();
+
+                        firebaseBookmarksLoaded = true; // Set the flag to indicate that Firebase bookmarks have loaded
+
+                        progressDialog.dismiss(); // Dismiss the progress dialog
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to fetch bookmarks from Firestore", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss(); // Dismiss the progress dialog
                     });
         } else {
             // Update the ListView with bookmarks from SharedPreferences only
             adapter.clear();
             adapter.addAll(bookmarkedItems);
             adapter.notifyDataSetChanged();
+
+            progressDialog.dismiss(); // Dismiss the progress dialog
         }
 
         return new ArrayList<>(bookmarkedItems);
     }
-
-
 
     private String getSurahName(int surahIndex) {
         // Open the existing database
@@ -220,7 +281,7 @@ public class SurahBookmarks extends AppCompatActivity {
 
             // Add the bookmarked item to the adapter
             String surahName = getSurahName(surahIndex);
-            String bookmarkedItem = "Surah " + surahName + ", Ayah " + ayahNumber;
+            String bookmarkedItem = "Surah " + surahName + ", Verse Number " + ayahNumber;
             adapter.add(bookmarkedItem);
             adapter.notifyDataSetChanged();
         }
@@ -254,6 +315,11 @@ public class SurahBookmarks extends AppCompatActivity {
     }
 
     private void clearBookmarks() {
+        if (!bookmarksLoaded) {
+            Toast.makeText(this, "Bookmarks not loaded yet", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Show a confirmation dialog before clearing bookmarks
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirmation");
@@ -298,8 +364,12 @@ public class SurahBookmarks extends AppCompatActivity {
         }
     }
 
-
     private void syncBookmarks() {
+        if (!bookmarksLoaded) {
+            Toast.makeText(this, "Bookmarks not loaded yet", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (firebaseAuth.getCurrentUser() == null) {
             // User not logged in, show login dialog
             showLoginDialog();
@@ -330,7 +400,7 @@ public class SurahBookmarks extends AppCompatActivity {
                         int ayahNumber = document.getLong("ayahNumber").intValue();
 
                         String surahName = getSurahName(surahIndex);
-                        String bookmarkedItem = "Surah " + surahName + ", Ayah " + ayahNumber;
+                        String bookmarkedItem = "Surah " + surahName + ", Verse Number " + ayahNumber;
                         bookmarkedItems.add(bookmarkedItem);
 
                         // Add Firestore bookmarks to a set
@@ -347,7 +417,7 @@ public class SurahBookmarks extends AppCompatActivity {
                         int ayahNumber = (int) entry.getValue();
 
                         String surahName = getSurahName(surahIndex);
-                        String bookmarkedItem = "Surah " + surahName + ", Ayah " + ayahNumber;
+                        String bookmarkedItem = "Surah " + surahName + ", Verse Number " + ayahNumber;
 
                         // Check for duplicates between SharedPreferences and Firestore
                         if (!firestoreBookmarks.contains(surahIndex + "_" + ayahNumber)) {

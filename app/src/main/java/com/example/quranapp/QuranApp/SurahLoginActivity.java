@@ -1,5 +1,6 @@
 package com.example.quranapp.QuranApp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ public class SurahLoginActivity extends AppCompatActivity {
     private Button registerButton;
 
     private FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,10 @@ public class SurahLoginActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,18 +77,20 @@ public class SurahLoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
+        progressDialog.show();
+
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
-                            // Login success, proceed to the next activity
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(SurahLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SurahLoginActivity.this, SurahBookmarks.class));
                             finish();
                         } else {
-                            // Login failed
                             Toast.makeText(SurahLoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -90,17 +98,19 @@ public class SurahLoginActivity extends AppCompatActivity {
     }
 
     private void register(String email, String password) {
+        progressDialog.show();
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
-                            // Registration success, proceed to the login activity
                             Toast.makeText(SurahLoginActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SurahLoginActivity.this, SurahLoginActivity.class));
                             finish();
                         } else {
-                            // Registration failed
                             Toast.makeText(SurahLoginActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                         }
                     }

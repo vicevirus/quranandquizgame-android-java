@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quranapp.QuizGame.QuizAppActivity;
 import com.example.quranapp.QuranApp.QuranAppActivity;
+;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnQuranApp;

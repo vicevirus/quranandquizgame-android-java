@@ -6,19 +6,44 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name: Muhammad Firdaus bin Amran"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Matric No: 4213005282"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnQuranApp"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Quran App"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#FF4081"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnIslamQuizApp"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Islam Quiz App"/>
+        android:text="Islam Quiz App"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#4CAF50"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

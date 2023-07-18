@@ -151,7 +151,7 @@ public class SurahRead extends Activity {
             int desiredScrollY = ayahTop - parentTop;
             scrollView.smoothScrollTo(0, desiredScrollY);
         } else {
-            Toast.makeText(this, "Ayah not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Verse not found", Toast.LENGTH_SHORT).show();
         }
     }
 

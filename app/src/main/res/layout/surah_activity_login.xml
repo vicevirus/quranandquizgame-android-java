@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,12 +5,13 @@
     android:padding="16dp">
 
 
+
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:hint="Email"
         android:inputType="textEmailAddress" />
 
@@ -30,7 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordEditText"
         android:layout_marginTop="24dp"
-        android:text="Login" />
+        android:text="Login"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/registerButton"
@@ -38,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/loginButton"
         android:layout_marginTop="16dp"
-        android:text="Register" />
-
+        android:text="Register"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

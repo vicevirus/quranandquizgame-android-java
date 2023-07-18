@@ -3,9 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="16dp"
     tools:context=".SurahBookmarks">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+        android:background="@android:color/transparent">
+
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent">
+
+            <ImageButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/backIcon"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_back"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/backButton"
+                android:layout_height="match_parent"
+                android:text="Back"
+                android:layout_toEndOf="@id/backIcon"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bookmarks"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
 
     <ListView
         android:id="@+id/listBookmarks"
@@ -16,20 +61,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/syncButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sync Bookmarks" />
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/clearButton"
+            <Button
+                android:id="@+id/syncButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sync Bookmarks" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear Bookmarks"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear Bookmarks" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+
 
     </LinearLayout>
 

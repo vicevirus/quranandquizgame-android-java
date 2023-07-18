@@ -8,20 +8,22 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+
+        android:background="@color/number_card_background_color">
 
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/number_card_background_color"
-            android:backgroundTint="#E3D8D8"
+
             android:src="@drawable/ic_back" />
 
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/number_card_background_color"
             android:queryHint="Search Surah Name" />
 
     </androidx.appcompat.widget.Toolbar>
@@ -38,7 +40,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Buttons for Surah names will be dynamically added here -->
+            <!-- CardViews for Surah names will be dynamically added here -->
 
         </LinearLayout>
     </ScrollView>
